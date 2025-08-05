@@ -9,18 +9,18 @@ from flask import Flask
 from threading import Thread
 import os
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
-TOKEN = os.getenv("TOKEN")  # Tokenı .env veya Render ortam değişkeninden al
+TOKEN = os.getenv("TOKEN")
 
 if TOKEN is None:
     print("Token bulunamadı! .env dosyasını veya Render ortam değişkenini kontrol edin.")
     exit(1)
 
 # Bot ayarları
-1390373120761925762 = None  # Ticket kanallarının oluşturulacağı kategori ID
+TICKET_CATEGORY_ID = 1390373120761925762  # Ticket kanallarının açılacağı kategori ID
 STAFF_ROLE_ID = None      # Yetkili rol ID
+TICKET_LOG_CHANNEL_ID = 1402105444704719060  # Ticket loglarının gideceği kanal ID
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -31,9 +31,6 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 # Ticket verilerini saklamak için değişkenleri güncelle
 ticket_data = {}
 ticket_count = 0  # Ticket sayacı
-
-# Log kanalının ID'sini buraya yaz (örnek: 123456789012345678)
-TICKET_LOG_CHANNEL_ID = 1402105444704719060  # <-- kendi log kanalının ID'sini yaz
 
 async def log_ticket_event(guild, user, channel, action):
     """Ticket açma/kapama olayını log kanalına gönderir."""
